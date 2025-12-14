@@ -15,7 +15,7 @@ COPY --from=build /app/build/libs/recycle-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 
 # Variable de entorno para MongoDB Atlas
-ENV SPRING_DATA_MONGODB_URI="mongodb+srv://kevin:7503260694pc@recycle-cluster.b43184c.mongodb.net/reciclaje"
+ENV SPRING_DATA_MONGODB_URI="mongodb+srv://kevin:7503260694pc@recycle-cluster.b43184c.mongodb.net/"
 
 # Arranque de la aplicación
 ENTRYPOINT ["java","-jar","app.jar"]
