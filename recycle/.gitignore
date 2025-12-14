@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+#Ingnorar variable de entorno
+.env
