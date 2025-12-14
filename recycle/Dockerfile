@@ -2,6 +2,8 @@
 FROM gradle:8.5-jdk21 AS build
 WORKDIR /app
 COPY . .
+RUN chmod +x ./gradlew
+
 RUN ./gradlew build -x test
 
 # Etapa 2: runtime
@@ -17,4 +19,3 @@ ENV SPRING_DATA_MONGODB_URI="mongodb+srv://kevin:7503260694pc@recycle-cluster.b4
 
 # Arranque de la aplicación
 ENTRYPOINT ["java","-jar","app.jar"]
-    
