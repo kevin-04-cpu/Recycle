@@ -47,6 +47,12 @@ public class EntregaServicesImpl implements EntregaServicesInterface {
             MaquinaCollection maquina = maquinaRepositories.findById(request.getMaquinaId())
                     .orElseThrow(() -> new RuntimeException("Maquina no encontrado"));
 
+            if(maquina.getCapacidad() <= request.getCantidad()){
+                response.setMensaje("Capacidad de maquina insuficiente. capacidad disponible: "+ maquina.getCapacidad());
+                return response;
+            }
+
+
             // mapear request
             EntregaCollection entrega = entregaMapper.toCollection(request);
 
@@ -59,6 +65,10 @@ public class EntregaServicesImpl implements EntregaServicesInterface {
             int puntosGenerados = request.getCantidad() * material.getEquivalenciaPuntos();
             entrega.setPuntosGenerados(puntosGenerados);
 
+            //Actualizar capacidad de la maquina
+            int capcidad = maquina.getCapacidad() - request.getCantidad();
+            maquina.setCapacidad(capcidad);
+
             // guardar entrega
             EntregaCollection guardada = entregaRepositories.save(entrega);
 
@@ -67,6 +77,8 @@ public class EntregaServicesImpl implements EntregaServicesInterface {
                     usuario.getPuntosAcumulados() + puntosGenerados
             );
             usuarioRepositories.save(usuario);
+
+            maquinaRepositories.save(maquina);
 
             response = entregaMapper.toResponse(guardada);
             response.setMensaje("Entrega registrada correctamente");
